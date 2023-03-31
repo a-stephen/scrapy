@@ -70,4 +70,7 @@
         # combined with yield.
         anchors = response.css("ul.pager a")
         yield response.follow(anchors, callback=self.parse)
+        # you can follow everything by call follow_all method and pass
+        # a css element.
+        yield response.follow_all(css="ul.pager a", callback=self.parse)
     ```
