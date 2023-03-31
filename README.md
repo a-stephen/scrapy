@@ -58,5 +58,16 @@
         </ul>
     ```
     ```python
-        response.css('li.next a::attr(href)').get() => "/page/2/"
+        # The next_page extraction depends on the html structure
+        next_page = response.css('li.next a::attr(href)').get() => "/page/2/"
+        if next_page is not None:
+            # response.follow() take relative url as argument.
+            yield response.follow(next_page, callback=self.parse)
+        # response.follow() also takes tag
+        for a in response.css("ul.pager a"):
+            yield  response.follow(a_element, callback=self.parse)
+        # response.follow() can also iterate over a list of element with
+        # combined with yield.
+        anchors = response.css("ul.pager a")
+        yield response.follow(anchors, callback=self.parse)
     ```
